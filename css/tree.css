@@ -1,0 +1,122 @@
+/* ═══════════════════════════════════════════════
+   tree.css — game tree canvas, metrics, legend
+   ═══════════════════════════════════════════════ */
+
+/* ── Tree Area ── */
+.tree-area {
+  flex: 1;
+  padding: 18px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tree-canvas-wrap {
+  flex: 1;
+  position: relative;
+  min-height: 240px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.tree-canvas-wrap::before {
+  content: 'GAME TREE';
+  position: absolute;
+  top: 10px; right: 14px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.08);
+  z-index: 1;
+  pointer-events: none;
+}
+
+#treeCanvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+  inset: 0;
+}
+
+/* ── Node Legend ── */
+.node-legend {
+  display: flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  flex-wrap: wrap;
+}
+
+.nl-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nl-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.nl-dot.red    { background: #ff2244; box-shadow: 0 0 5px rgba(255,34,68,0.5);   }
+.nl-dot.green  { background: #00ffa3; box-shadow: 0 0 5px rgba(0,255,163,0.4);  }
+.nl-dot.amber  { background: #ffcc00; box-shadow: 0 0 5px rgba(255,204,0,0.4);  }
+.nl-dot.purple { background: #3344aa; }
+
+/* ── Metrics Strip ── */
+.metrics-strip {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  background: var(--panel);
+}
+
+.metric-card {
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Bottom accent bar */
+.metric-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.metric-card.mc-atk::before { background: var(--red);   box-shadow: 0 0 6px var(--red-glow);   }
+.metric-card.mc-def::before { background: var(--green); box-shadow: 0 0 6px var(--green-glow); }
+.metric-card.mc-n::before   { background: rgba(255,255,255,0.1); }
+
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: var(--text-dim);
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.metric-val {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-bright);
+}
+
+.metric-val.mv-atk { color: var(--red);   text-shadow: 0 0 10px var(--red-glow);   }
+.metric-val.mv-def { color: var(--green); text-shadow: 0 0 10px var(--green-glow); }
+.metric-val.mv-n   { color: var(--amber); }

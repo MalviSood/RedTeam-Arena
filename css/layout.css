@@ -1,0 +1,189 @@
+/* ═══════════════════════════════════════════════
+   layout.css — arena grid, header, main grid
+   ═══════════════════════════════════════════════ */
+
+.arena {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* ── Header ── */
+.header {
+  padding: 0 32px;
+  height: 64px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(4, 8, 16, 0.95);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--red);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px var(--red-glow), inset 0 0 8px var(--red-dim);
+  animation: pulse-icon 3s ease-in-out infinite;
+}
+
+.logo-icon svg { width: 18px; height: 18px; }
+
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: var(--text-bright);
+}
+
+.logo-text em {
+  color: var(--red);
+  font-style: normal;
+  text-shadow: 0 0 14px var(--red-glow);
+}
+
+.logo-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  background: rgba(255,255,255,0.03);
+  transition: all 0.3s;
+}
+
+.status-pill.atk { border-color: rgba(255,34,68,0.4);   background: var(--red-dim);   color: var(--red);   }
+.status-pill.def { border-color: rgba(0,255,163,0.3);   background: var(--green-dim); color: var(--green); }
+.status-pill.idle { color: var(--text-dim); }
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: blink 1s ease-in-out infinite;
+}
+
+.round-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+
+/* ── Main 3-column grid ── */
+.main {
+  display: grid;
+  grid-template-columns: 280px 1fr 280px;
+  min-height: calc(100vh - 128px);
+}
+
+/* ── Center panel ── */
+.center-panel {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg2);
+}
+
+.scenario-area {
+  padding: 20px 24px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 3.5px;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+
+.section-eyebrow::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.scenario-box {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 44px;
+  font-weight: 300;
+}
+
+.scenario-box strong { color: var(--amber); font-weight: 600; }
+
+/* ── Verdict ── */
+.verdict {
+  margin: 0 24px 16px;
+  padding: 16px 20px;
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  display: none;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.verdict::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background: repeating-linear-gradient(
+    45deg,
+    currentColor 0px, currentColor 1px,
+    transparent 1px, transparent 8px
+  );
+}
+
+.verdict.show      { display: block; animation: verdictIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+.verdict.atk-win   { background: rgba(255,34,68,0.1);   color: var(--red);   border: 1px solid rgba(255,34,68,0.4);   }
+.verdict.def-win   { background: rgba(0,255,163,0.08);  color: var(--green); border: 1px solid rgba(0,255,163,0.3);  }
+.verdict.draw      { background: rgba(255,204,0,0.08);  color: var(--amber); border: 1px solid rgba(255,204,0,0.3);  }

@@ -1,0 +1,88 @@
+/* ═══════════════════════════════════════════════
+   base.css — CSS variables, reset, global styles
+   ═══════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Colors */
+  --red:         #ff2244;
+  --red-glow:    rgba(255, 34, 68, 0.4);
+  --red-dim:     rgba(255, 34, 68, 0.08);
+  --green:       #00ffa3;
+  --green-glow:  rgba(0, 255, 163, 0.35);
+  --green-dim:   rgba(0, 255, 163, 0.07);
+  --amber:       #ffcc00;
+  --amber-glow:  rgba(255, 204, 0, 0.3);
+  --blue:        #00aaff;
+  --purple:      #3344aa;
+
+  /* Backgrounds */
+  --bg:          #040810;
+  --bg2:         #070d18;
+  --bg3:         #0b1120;
+  --panel:       #080f1e;
+  --panel2:      #0c1528;
+
+  /* Borders & Text */
+  --border:      rgba(255, 255, 255, 0.07);
+  --border2:     rgba(255, 255, 255, 0.12);
+  --text:        #c8d8f0;
+  --text-dim:    #4a6080;
+  --text-bright: #e8f4ff;
+
+  /* Typography */
+  --font-display: 'Orbitron', monospace;
+  --font-mono:    'JetBrains Mono', monospace;
+  --font-body:    'Exo 2', sans-serif;
+
+  /* Scoring */
+  --max-score:   30;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.07) 2px,
+    rgba(0, 0, 0, 0.07) 4px
+  );
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Grid background */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 170, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 170, 255, 0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar         { width: 4px; }
+::-webkit-scrollbar-track   { background: transparent; }
+::-webkit-scrollbar-thumb   { background: rgba(255,255,255,0.1); border-radius: 2px; }
+* { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }

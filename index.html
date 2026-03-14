@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RedTeam Arena — AI Adversarial Search</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=JetBrains+Mono:wght@300;400;500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/agents.css" />
+  <link rel="stylesheet" href="css/tree.css" />
+  <link rel="stylesheet" href="css/controls.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+<div class="arena">
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <div class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 2L18 6V14L10 18L2 14V6L10 2Z" stroke="#ff2244" stroke-width="1.5"/>
+          <path d="M10 6L14 8V12L10 14L6 12V8L10 6Z" fill="#ff2244" opacity="0.5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-text"><em>RED</em>TEAM ARENA</div>
+        <div class="logo-sub">AI ADVERSARIAL SEARCH ENGINE</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-pill idle" id="turnPill">
+        <span class="pulse-dot"></span>
+        <span id="turnLabel">STANDBY</span>
+      </div>
+      <div class="round-badge" id="roundCounter">ROUND 0 / 0</div>
+    </div>
+  </header>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+
+    <!-- ATTACKER PANEL -->
+    <div class="agent-panel attacker">
+      <div class="agent-header">
+        <div class="agent-tag atk">▶ ATTACKER</div>
+        <div class="agent-name atk">PHANTOM</div>
+        <div class="agent-score-wrap">
+          <div class="agent-score atk" id="atkScore">0.0</div>
+          <div class="score-label">pts</div>
+        </div>
+        <div class="score-bar">
+          <div class="score-bar-fill atk" id="atkBar" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="agent-stat-row">
+        <div class="agent-stat">
+          <div class="agent-stat-label">STRATEGY</div>
+          <div class="agent-stat-val atk">MINIMAX MAX</div>
+        </div>
+        <div class="agent-stat">
+          <div class="agent-stat-label">LAST MOVE</div>
+          <div class="agent-stat-val atk" id="atkLastMove">—</div>
+        </div>
+      </div>
+      <div class="agent-log-title">ATTACK LOG</div>
+      <div class="agent-log" id="atkLog"></div>
+    </div>
+
+    <!-- CENTER PANEL -->
+    <div class="center-panel">
+
+      <div class="scenario-area">
+        <div class="section-eyebrow">active scenario</div>
+        <div class="scenario-box" id="scenarioBox">
+          Select a scenario below and press <strong>INITIATE</strong> to begin the adversarial simulation.
+        </div>
+      </div>
+
+      <div class="tree-area">
+        <div class="section-eyebrow">minimax game tree — alpha-beta pruning</div>
+        <div class="tree-canvas-wrap">
+          <canvas id="treeCanvas"></canvas>
+        </div>
+        <div class="node-legend">
+          <div class="nl-item"><div class="nl-dot red"></div>MAX node (attacker)</div>
+          <div class="nl-item"><div class="nl-dot green"></div>MIN node (defender)</div>
+          <div class="nl-item"><div class="nl-dot amber"></div>Terminal / evaluated</div>
+          <div class="nl-item"><div class="nl-dot purple"></div>α-β pruned</div>
+        </div>
+      </div>
+
+      <div class="metrics-strip">
+        <div class="metric-card mc-atk">
+          <div class="metric-label">ATK SCORE</div>
+          <div class="metric-val mv-atk" id="mmAtk">—</div>
+        </div>
+        <div class="metric-card mc-def">
+          <div class="metric-label">DEF SCORE</div>
+          <div class="metric-val mv-def" id="mmDef">—</div>
+        </div>
+        <div class="metric-card mc-n">
+          <div class="metric-label">BEST MOVE</div>
+          <div class="metric-val mv-n" id="mmBest" style="font-size:11px;letter-spacing:0">—</div>
+        </div>
+        <div class="metric-card mc-n">
+          <div class="metric-label">NODES</div>
+          <div class="metric-val mv-n" id="mmNodes">0</div>
+        </div>
+        <div class="metric-card mc-n">
+          <div class="metric-label">PRUNED</div>
+          <div class="metric-val mv-n" id="mmPruned">0</div>
+        </div>
+      </div>
+
+      <div class="verdict" id="verdict"></div>
+
+    </div>
+
+    <!-- DEFENDER PANEL -->
+    <div class="agent-panel defender">
+      <div class="agent-header">
+        <div class="agent-tag def">◀ DEFENDER</div>
+        <div class="agent-name def">AEGIS</div>
+        <div class="agent-score-wrap">
+          <div class="agent-score def" id="defScore">0.0</div>
+          <div class="score-label">pts</div>
+        </div>
+        <div class="score-bar">
+          <div class="score-bar-fill def" id="defBar" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="agent-stat-row">
+        <div class="agent-stat">
+          <div class="agent-stat-label">STRATEGY</div>
+          <div class="agent-stat-val def">MINIMAX MIN</div>
+        </div>
+        <div class="agent-stat">
+          <div class="agent-stat-label">LAST MOVE</div>
+          <div class="agent-stat-val def" id="defLastMove">—</div>
+        </div>
+      </div>
+      <div class="agent-log-title">DEFENSE LOG</div>
+      <div class="agent-log" id="defLog"></div>
+    </div>
+
+  </div>
+
+  <!-- ── CONTROLS ── -->
+  <div class="controls">
+    <div class="ctrl-group">
+      <span class="ctrl-label">Scenario</span>
+      <select id="scenarioSelect">
+        <option value="sql">SQL Injection</option>
+        <option value="phishing">Phishing Campaign</option>
+        <option value="privesc">Privilege Escalation</option>
+        <option value="ransomware">Ransomware Deploy</option>
+        <option value="exfil">Data Exfiltration</option>
+      </select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Search Depth</span>
+      <select id="depthSelect">
+        <option value="2">Depth 2 — Fast</option>
+        <option value="3" selected>Depth 3 — Balanced</option>
+        <option value="4">Depth 4 — Deep</option>
+      </select>
+    </div>
+    <button class="btn btn-start" id="startBtn" onclick="Arena.start()">INITIATE</button>
+    <button class="btn btn-reset" id="resetBtn" onclick="Arena.reset()">RESET</button>
+    <div class="ctrl-info" id="ctrlInfo">ALPHA-BETA PRUNING ACTIVE</div>
+  </div>
+
+</div>
+
+<!-- Scripts loaded in dependency order -->
+<script src="js/scenarios.js"></script>
+<script src="js/minimax.js"></script>
+<script src="js/tree-renderer.js"></script>
+<script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/arena.js"></script>
+
+</body>
+</html>

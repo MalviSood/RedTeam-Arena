@@ -1,0 +1,54 @@
+/* ═══════════════════════════════════════════════
+   animations.css — all keyframes and transitions
+   ═══════════════════════════════════════════════ */
+
+/* ── Logo icon pulse ── */
+@keyframes pulse-icon {
+  0%, 100% { box-shadow: 0 0 12px var(--red-glow), inset 0 0 8px var(--red-dim); }
+  50%       { box-shadow: 0 0 22px var(--red-glow), inset 0 0 14px var(--red-dim); }
+}
+
+/* ── Dot blink ── */
+@keyframes blink {
+  0%, 100% { opacity: 1;   }
+  50%       { opacity: 0.2; }
+}
+
+/* ── Log entry slide in ── */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Verdict entrance ── */
+@keyframes verdictIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Score bump on update ── */
+@keyframes scoreBump {
+  0%   { transform: scale(1);    }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1);    }
+}
+
+.score-bump {
+  animation: scoreBump 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Spinner for thinking state ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.thinking {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border: 1.5px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.5s linear infinite;
+  margin-left: 5px;
+  vertical-align: middle;
+}
